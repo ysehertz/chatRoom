@@ -25,7 +25,7 @@ public class QQView {
     private int key = 0;
     private UserClientService userClientService = new UserClientService();
     private MessageClientService messageClientService = new MessageClientService();
-    private FileClientService fileClientService = new FileClientService();
+    private FileClientService fileClientService  = new FileClientService();
 
     String userId;
 
@@ -71,36 +71,18 @@ public class QQView {
 
     }
 
-    public void mainSleep(){
-        synchronized (this) {
-            try {
-                // 确保在同步块内调用 wait()
-                this.wait();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt(); // 恢复中断状态
-                System.out.println("Thread was interrupted");
-            }
-        }
-    }
-
-
-    // 唤醒线程
-    public void mainNotify(){
-        synchronized (this) {
-            // 在需要唤醒其他线程的地方调用 notify() 或 notifyAll()
-            this.notify(); // 或者使用 lock.notifyAll();
-        }
-    }
 
     private void chatMenu() {
-        System.out.println("============网络通信系统二级菜单============");
-        System.out.println("\t\t\t1 在线用户列表");
-        System.out.println("\t\t\t2 群聊");
-        System.out.println("\t\t\t3 私聊");
-        System.out.println("\t\t\t4 发送文件");
-        System.out.println("\t\t\t9 退出系统");
-        System.out.print("请输入你的选择：");
-        key = new Scanner(System.in).nextInt();
+        synchronized (System.in){
+            System.out.println("============网络通信系统二级菜单============");
+            System.out.println("\t\t\t1 在线用户列表");
+            System.out.println("\t\t\t2 群聊");
+            System.out.println("\t\t\t3 私聊");
+            System.out.println("\t\t\t4 发送文件");
+            System.out.println("\t\t\t9 退出系统");
+            System.out.print("请输入你的选择：");
+            key = ManageClientConnectServerThread.getScanner().nextInt();
+        }
         switch(key){
             case 1:
                 userClientService.onlineFriendList();

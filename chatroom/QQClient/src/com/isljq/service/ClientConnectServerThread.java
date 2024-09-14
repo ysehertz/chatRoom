@@ -57,42 +57,46 @@ public class ClientConnectServerThread extends Thread{
                     System.out.println("\n" + message.getSender() + " 对大家说：" + message.getContent());
                 }else if(message.getMessageType().equals(MessageType.MESSAGE_FILE_MES)){
 
+
                     System.out.println("\n" + message.getSender() + " 给你发送了一个文件");
 
+                    synchronized (System.in){ // 提示用户是否接收该文件
+
+                        System.out.println("\n" + message.getSender() + " 给你发送了一个文件");
+                        System.out.println("是否接收该文件？y/n");
+
+                        char choice = ManageClientConnectServerThread.getScanner().next().charAt(0);
+                        if (choice == 'y') {
+                            // 接收文件
+                            // 提示用户输入保存路径
+                            System.out.println("请输入保存路径（例如：D:\\）");
+                            String dest = ManageClientConnectServerThread.getScanner().next();
 
 
-                    // 提示用户是否接收该文件
-                    System.out.println("是否接收该文件？y/n");
+                            FileOutputStream fileOutputStream = new FileOutputStream(dest);
+                            fileOutputStream.write(message.getFileBytes(), 0, message.getFileLen());
+                            fileOutputStream.close();
+                            System.out.println("文件保存成功！");
 
-                    ManageClientConnectServerThread.getQqView().mainSleep();
-                    char choice = new Scanner(System.in).next().charAt(0);
-                    if(choice == 'y'){
-                        // 接收文件
-                        // 提示用户输入保存路径
-                        System.out.println("请输入保存路径（例如：D:\\）");
-                        String dest = new Scanner(System.in).next();
+                            // 发送同意通知
+                            Message message1 = new Message();
+                            message1.setMessageType(MessageType.MESSAGE_AGREE_FILE_MES);
+                            message1.setGetter(message.getSender());
+                            message1.setSender(message.getGetter());
+                            new ObjectOutputStream(ManageClientConnectServerThread.getClientConnectServerThread(message1.getSender()).getSocket().getOutputStream()).writeObject(message1);
+                        } else {
+                            Message message1 = new Message();
+                            message1.setMessageType(MessageType.MESSAGE_DISAGREE_FILE_MES);
+                            message1.setGetter(message.getSender());
+                            message1.setSender(message.getGetter());
 
-                        ManageClientConnectServerThread.getQqView().mainNotify();
-
-                        FileOutputStream fileOutputStream = new FileOutputStream(dest);
-                        fileOutputStream.write(message.getFileBytes(), 0, message.getFileLen());
-                        fileOutputStream.close();
-                        System.out.println("文件保存成功！");
-
-                        // 发送同意通知
-                        Message message1 = new Message();
-                        message1.setMessageType(MessageType.MESSAGE_AGREE_FILE_MES);
-                        message1.setGetter(message.getSender());
-                        message1.setSender(message.getGetter());
-                        new ObjectOutputStream(ManageClientConnectServerThread.getClientConnectServerThread(message.getSender()).getSocket().getOutputStream()).writeObject(message);
-                    }else {
-                        Message message1 = new Message();
-                        message1.setMessageType(MessageType.MESSAGE_DISAGREE_FILE_MES);
-                        message1.setGetter(message.getSender());
-                        message1.setSender(message.getGetter());
-
-                        new ObjectOutputStream(ManageClientConnectServerThread.getClientConnectServerThread(message.getSender()).getSocket().getOutputStream()).writeObject(message);
+                            new ObjectOutputStream(ManageClientConnectServerThread.getClientConnectServerThread(message1.getSender()).getSocket().getOutputStream()).writeObject(message1);
+                        }
                     }
+                }else if(message.getMessageType().equals(MessageType.MESSAGE_AGREE_FILE_MES)){
+                    System.out.println(message.getSender()+"同意接受此文件");
+                }else if(message.getMessageType().equals(MessageType.MESSAGE_DISAGREE_FILE_MES)){
+                    System.out.println(message.getSender()+"拒绝接受此文件");
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);

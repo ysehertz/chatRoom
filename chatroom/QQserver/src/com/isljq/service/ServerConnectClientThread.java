@@ -83,10 +83,14 @@ public class ServerConnectClientThread extends Thread{
                     Message message1 = (Message) objectInputStream1.readObject();
                     Socket socket2 = ManageClientThreads.getServerConnectClientThread(message.getGetter()).getSocket();
                     new ObjectOutputStream(socket2.getOutputStream()).writeObject(message1);
-
-                    // 关闭资源
-                    objectInputStream1.close();
-                    objectOutputStream.close();
+                }else if(MessageType.MESSAGE_AGREE_FILE_MES.equals(message.getMessageType())){
+                    System.out.println(message.getGetter() + "同意" + message.getSender() + "发送文件");
+                    Socket socket1 = ManageClientThreads.getServerConnectClientThread(message.getGetter()).getSocket();
+                    new ObjectOutputStream(socket1.getOutputStream()).writeObject(message);
+                }else if(MessageType.MESSAGE_DISAGREE_FILE_MES.equals(message.getMessageType())){
+                    System.out.println(message.getGetter() + "拒绝" + message.getSender() + "发送文件");
+                    Socket socket1 = ManageClientThreads.getServerConnectClientThread(message.getGetter()).getSocket();
+                    new ObjectOutputStream(socket1.getOutputStream()).writeObject(message);
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);

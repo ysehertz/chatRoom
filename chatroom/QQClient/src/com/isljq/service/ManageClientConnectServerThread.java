@@ -3,6 +3,7 @@ package com.isljq.service;
 import com.isljq.view.QQView;
 
 import java.util.HashMap;
+import java.util.Scanner;
 
 /**
  * ClassName: ManageClientConnectServerThread
@@ -14,6 +15,15 @@ import java.util.HashMap;
  * @createTime 2024/9/13
  */
 public class ManageClientConnectServerThread {
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static Scanner getScanner() {
+        return scanner;
+    }
+
+    public static void setScanner(Scanner scanner) {
+        ManageClientConnectServerThread.scanner = scanner;
+    }
 
     private static QQView qqView;
 

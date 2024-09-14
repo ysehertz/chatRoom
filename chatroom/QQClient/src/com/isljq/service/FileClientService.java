@@ -18,38 +18,39 @@ import java.net.Socket;
 public class FileClientService {
     public void sendFileToOne(String src,String setterId, String getterId,String content){
 
-        Message message = new Message();
-        message.setMessageType(MessageType.MESSAGE_FILE_MES);
-        message.setSrc(src);
-        message.setGetter(getterId);
-        message.setSender(setterId);
-        message.setContent(content);
+        synchronized (System.in){
+            Message message = new Message();
+            message.setMessageType(MessageType.MESSAGE_FILE_MES);
+            message.setSrc(src);
+            message.setGetter(getterId);
+            message.setSender(setterId);
+            message.setContent(content);
 
-        FileInputStream fis = null;
-        byte[] fileBytes = new byte[(int) new File(src).length()];
-        message.setFileLen((int) new File(src).length());
+            FileInputStream fis = null;
+            byte[] fileBytes = new byte[(int) new File(src).length()];
+            message.setFileLen((int) new File(src).length());
 
-        try {
-            fis = new FileInputStream(src);
-            fis.read(fileBytes);
+            try {
+                fis = new FileInputStream(src);
+                fis.read(fileBytes);
 
-            message.setFileBytes(fileBytes);
-            Socket socket = ManageClientConnectServerThread.getClientConnectServerThread(setterId).getSocket();
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            objectOutputStream.writeObject(message);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            if(fis != null){
-                try {
-                    fis.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                message.setFileBytes(fileBytes);
+                Socket socket = ManageClientConnectServerThread.getClientConnectServerThread(setterId).getSocket();
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                objectOutputStream.writeObject(message);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            } finally {
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
+            System.out.println("正在申请文件发送，请稍后");
         }
-        System.out.println("申请成功，开始发送文件");
-
     }
     // 申请发送文件
     public void applySentFile(String src,String command ,String setterId, String getterId ){
