@@ -18,14 +18,14 @@ import java.util.Scanner;
  * @createTime 2024/9/13
  */
 public class ClientConnectServerThread extends Thread{
-     boolean loop = true;
+     boolean lop = true;
 
-    public boolean isLoop() {
-        return loop;
+    public boolean isLop() {
+        return lop;
     }
 
     public void setLoop(boolean loop) {
-        this.loop = loop;
+        this.lop = loop;
     }
 
     private FileClientService fileClientService;
@@ -79,14 +79,14 @@ public class ClientConnectServerThread extends Thread{
                             message1.setGetter(message.getSender());
                             message1.setSender(message.getGetter());
                             new ObjectOutputStream(socket.getOutputStream()).writeObject(message1);
-                            loop = true;
-                            while (loop) {
+                            lop = true;
+                            while (lop) {
                                 Message message2 = new Message();
                                 message2.setMessageType(MessageType.MESSAGE_COMM_MES_ONE);
                                 String content = ManageClientConnectServerThread.getScanner().next();
                                 if("exit".equals(content))
                                 {
-                                    loop = false;
+                                    lop = false;
                                     message2.setContent(message.getGetter()+"退出私聊");
                                     message2.setMessageType(MessageType.MESSAGE_COMM_EXIT_ONE);
                                 }else {
@@ -95,9 +95,8 @@ public class ClientConnectServerThread extends Thread{
                                 }
                                 message2.setSender(message.getGetter()+":");
                                 message2.setGetter(message.getSender()+":");
-                                if(loop){
-                                    new ObjectOutputStream(socket.getOutputStream()).writeObject(message2);
-                                }
+
+                                new ObjectOutputStream(socket.getOutputStream()).writeObject(message2);
                             }
                         }else{
                             /**
@@ -121,14 +120,14 @@ public class ClientConnectServerThread extends Thread{
                      */
                     System.out.println("\n" + message.getSender() + " 同意了你的私聊请求，现在可以私聊了,按0进入私聊");
                     synchronized (System.in){
-                        loop = true;
-                        while (loop) {
+                        lop = true;
+                        while (lop) {
                             Message message2 = new Message();
                             message2.setMessageType(MessageType.MESSAGE_COMM_MES_ONE);
                             String content = ManageClientConnectServerThread.getScanner().next();
                             if("exit".equals(content))
                             {
-                                loop = false;
+                                lop = false;
                                 message2.setContent(message.getGetter()+"退出私聊");
                                 message2.setMessageType(MessageType.MESSAGE_COMM_EXIT_ONE);
                             }else {
@@ -137,7 +136,7 @@ public class ClientConnectServerThread extends Thread{
                             }
                             message2.setSender(message.getGetter()+":");
                             message2.setGetter(message.getSender()+":");
-                            new ObjectOutputStream(socket.getOutputStream()).writeObject(message2);
+                                new ObjectOutputStream(socket.getOutputStream()).writeObject(message2);
                         }
 
                     }
