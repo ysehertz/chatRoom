@@ -58,11 +58,11 @@ public class ClientConnectServerThread extends Thread{
                 }else if(message.getMessageType().equals(MessageType.MESSAGE_FILE_MES)){
 
 
-                    System.out.println("\n" + message.getSender() + " 给你发送了一个文件");
+                    System.out.println("\n" + message.getSender() + " 给你发送了一个文件,请按0刷新以响应");
 
                     synchronized (System.in){ // 提示用户是否接收该文件
 
-                        System.out.println("\n" + message.getSender() + " 给你发送了一个文件");
+                        System.out.println("\n" + message.getSender() + " 给你发送了一个文件："+message.getContent());
                         System.out.println("是否接收该文件？y/n");
 
                         char choice = ManageClientConnectServerThread.getScanner().next().charAt(0);
@@ -94,8 +94,10 @@ public class ClientConnectServerThread extends Thread{
                         }
                     }
                 }else if(message.getMessageType().equals(MessageType.MESSAGE_AGREE_FILE_MES)){
+                    System.out.println();
                     System.out.println(message.getSender()+"同意接受此文件");
                 }else if(message.getMessageType().equals(MessageType.MESSAGE_DISAGREE_FILE_MES)){
+                    System.out.println();
                     System.out.println(message.getSender()+"拒绝接受此文件");
                 }
             } catch (Exception e) {

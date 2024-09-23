@@ -6,9 +6,9 @@
       <module fileurl="file://$PROJECT_DIR$/chatroom/QQClient/QQClient.iml" filepath="$PROJECT_DIR$/chatroom/QQClient/QQClient.iml" />
       <module fileurl="file://$PROJECT_DIR$/chatroom/QQserver/QQserver.iml" filepath="$PROJECT_DIR$/chatroom/QQserver/QQserver.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/chatRoom.iml" filepath="$PROJECT_DIR$/.idea/chatRoom.iml" />
-      <module fileurl="file://$PROJECT_DIR$/chatroom/chatroom.iml" filepath="$PROJECT_DIR$/chatroom/chatroom.iml" />
       <module fileurl="file://$PROJECT_DIR$/learn/learn.iml" filepath="$PROJECT_DIR$/learn/learn.iml" />
       <module fileurl="file://$PROJECT_DIR$/learn_IO/learn_IO.iml" filepath="$PROJECT_DIR$/learn_IO/learn_IO.iml" />
+      <module fileurl="file://$PROJECT_DIR$/learn_thread/learn_thread.iml" filepath="$PROJECT_DIR$/learn_thread/learn_thread.iml" />
     </modules>
   </component>
 </project>

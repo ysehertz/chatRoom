@@ -42,6 +42,8 @@ public class QQView {
         key = new Scanner(System.in).nextInt();
 
 
+
+
         switch(key){
             case 1:
 
@@ -75,8 +77,9 @@ public class QQView {
     private void chatMenu() {
         synchronized (System.in){
             System.out.println("============网络通信系统二级菜单============");
+            System.out.println("\t\t\t0 刷新以接受私聊、文件请求");
             System.out.println("\t\t\t1 在线用户列表");
-            System.out.println("\t\t\t2 群聊");
+            System.out.println("\t\t\t2 广播");
             System.out.println("\t\t\t3 私聊");
             System.out.println("\t\t\t4 发送文件");
             System.out.println("\t\t\t9 退出系统");
@@ -84,6 +87,13 @@ public class QQView {
             key = ManageClientConnectServerThread.getScanner().nextInt();
         }
         switch(key){
+            case 0:
+                try {
+                    sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
             case 1:
                 userClientService.onlineFriendList();
                 try {
