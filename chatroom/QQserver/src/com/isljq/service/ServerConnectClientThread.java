@@ -19,7 +19,16 @@ import java.util.HashMap;
  * @createTime 2024/9/13
  */
 public class ServerConnectClientThread extends Thread{
+    boolean loop = true;
 
+
+    public boolean isLoop() {
+        return loop;
+    }
+
+    public void setLoop(boolean loop) {
+        this.loop = loop;
+    }
 
     private Socket socket;
     private String userId;
@@ -34,8 +43,10 @@ public class ServerConnectClientThread extends Thread{
 
     @Override
     public void run() {
-        System.out.println("线程" + userId + "开始运行");
-        while(true){
+        if(userId.charAt(userId.length() - 1) != ':'){
+            System.out.println("线程" + userId + "开始运行");
+        }
+        while(loop){
             try {
                 ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
                 Message message = (Message) objectInputStream.readObject();
@@ -59,7 +70,13 @@ public class ServerConnectClientThread extends Thread{
                      * 客户端退出
                      */
                     System.out.println(message.getSender() + "退出");
+                    ServerConnectClientThread clientThread = ManageClientThreads.getClientThread(userId + ":");
+                    ManageClientThreads.removeClientThread(userId+":");
+                    clientThread.getSocket().close();
+                    clientThread.setLoop(false);
+                    ServerConnectClientThread clientThread1 = ManageClientThreads.getClientThread(userId);
                     ManageClientThreads.removeClientThread(userId);
+                    clientThread1.getSocket().close();
                     socket.close();
                     break;
                 }else if(MessageType.MESSAGE_COMM_MES.equals(message.getMessageType())) {
@@ -139,7 +156,7 @@ public class ServerConnectClientThread extends Thread{
                     new ObjectOutputStream(socket1.getOutputStream()).writeObject(message);
                 }
             } catch (Exception e) {
-                throw new RuntimeException(e);
+
             }
         }
     }

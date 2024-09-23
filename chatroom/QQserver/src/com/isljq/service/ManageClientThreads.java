@@ -27,6 +27,7 @@ public class ManageClientThreads {
         hm.put(userId, serverConnectClientThread);
     }
 
+
     public static ServerConnectClientThread getServerConnectClientThread(String userId) {
         return hm.get(userId);
     }
@@ -42,5 +43,9 @@ public class ManageClientThreads {
 
     public static void removeClientThread(String userId) {
         hm.remove(userId);
+    }
+
+    public static ServerConnectClientThread getClientThread(String userId) {
+        return hm.get(userId);
     }
 }
