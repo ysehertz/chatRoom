@@ -53,7 +53,6 @@ public class QQView {
                     System.out.println("请输入密码：");
                     String password = new Scanner(System.in).next();
                     if(userClientService.checkUser(userId,password)){
-                        ManageClientConnectServerThread.setQqView(this);
                         System.out.println("==========欢迎回来：" + userId + "==========");
                         while(loop){
                             chatMenu();
@@ -84,7 +83,10 @@ public class QQView {
             System.out.println("\t\t\t4 发送文件");
             System.out.println("\t\t\t9 退出系统");
             System.out.print("请输入你的选择：");
-            key = ManageClientConnectServerThread.getScanner().nextInt();
+            try {
+                key = ManageClientConnectServerThread.getScanner().nextInt();
+            }catch (Exception e){
+            }
         }
         switch(key){
             case 0:
@@ -109,9 +111,7 @@ public class QQView {
             case 3:
                 System.out.print("请输入想聊天的在线用户的用户号：");
                 String userId1 = new Scanner(System.in).next();
-                System.out.print("请输入想说的话：");
-                String content = new Scanner(System.in).next();
-                messageClientService.sendMessageToOne(content,userId,userId1);
+                messageClientService.sendMessageToOne(userId,userId1);
                 break;
             case 4:
                 System.out.print("请输入想发送的文件路径：");

@@ -1,6 +1,6 @@
 
 # IO流
-![io.png](public/images/io.png)
+![io.png](../public/images/io.png)
 ## 1. 文件操作
 ### 1.1 新建文件
 - new File(String pathname) // 根据路径创建File对象
@@ -34,13 +34,13 @@
 | 输入流     | InputStream  | Reader |
 | 输出流     | OutputStream | Writer |
 
-![io.png](public/images/inputStream.png)
+![io.png](../public/images/inputStream.png)
 
 ### 2.2 File
 
 #### 2.2.1 FileInputStream
 
-![io.png](public/images/fileInputS.png)
+![io.png](../public/images/fileInputS.png)
 
 #### 2.2.2 FileReader
 
@@ -146,7 +146,7 @@
 
 可以将字节流包装为字符流
 
-![InputSteamReader](public/images/InputSteamReader.png)
+![InputSteamReader](../public/images/InputSteamReader.png)
 
 ```java
         String filePath = "./public/he.txt";

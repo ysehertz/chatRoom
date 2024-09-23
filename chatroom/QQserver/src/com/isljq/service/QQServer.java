@@ -11,6 +11,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 
+import static java.lang.Thread.sleep;
+
 /**
  * ClassName: QQServer
  * Package: qqserver.service
@@ -51,6 +53,14 @@ public class QQServer {
 
                     objectOutputStream.writeObject(message);
                     ManageClientThreads.addClientThread(user.getUserId(), serverConnectClientThread);
+
+                    // 建立第二个socket用于建立私聊通道
+                    Socket socket = serverSocket.accept();
+                    User user1 = (User) new ObjectInputStream(socket.getInputStream()).readObject();
+                    ServerConnectClientThread serverConnectClientThread1 = new ServerConnectClientThread(socket, user1.getUserId());
+                    serverConnectClientThread1.start();
+                    ManageClientThreads.addClientThread(user1.getUserId(), serverConnectClientThread1);
+
 
                 }else{
                     message.setMessageType(MessageType.MESSAGE_LOGIN_FAIL);

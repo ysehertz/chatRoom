@@ -25,16 +25,6 @@ public class ManageClientConnectServerThread {
         ManageClientConnectServerThread.scanner = scanner;
     }
 
-    private static QQView qqView;
-
-    public static QQView getQqView() {
-        return qqView;
-    }
-
-    public static void setQqView(QQView qqView) {
-        ManageClientConnectServerThread.qqView = qqView;
-    }
-
     public static HashMap<String, ClientConnectServerThread> getHm() {
         return hm;
     }

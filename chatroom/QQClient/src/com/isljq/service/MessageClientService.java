@@ -19,9 +19,8 @@ import java.util.Date;
  */
 public class MessageClientService
 {
-    public void sendMessageToOne(String content, String senderID,String getterID) {
+    public void sendMessageToOne(String senderID,String getterID) {
         Message message = new Message();
-        message.setContent(content);
         message.setMessageType(MessageType.MESSAGE_COMM_MES);
         message.setSender(senderID);
         message.setGetter(getterID);

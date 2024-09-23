@@ -22,5 +22,8 @@ public interface MessageType {
     String MESSAGE_FILE_MES = "8"; // 发送文件
     String MESSAGE_AGREE_FILE_MES = "9"; // 同意接受文件
     String MESSAGE_DISAGREE_FILE_MES = "10"; // 拒绝接受文件
-
+    String MESSAGE_COMM_MES_AGREE = "11"; //同意私聊
+    String MESSAGE_COMM_MES_REFUSE = "12"; // 拒绝私聊
+    String MESSAGE_COMM_MES_ONE = "13";  // 私聊消息
+    String MESSAGE_COMM_EXIT_ONE = "14";  // 退出私聊
 }

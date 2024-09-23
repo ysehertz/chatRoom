@@ -24,7 +24,16 @@ public class UserClientService {
     private User user = new User();
 
     Socket socket;
+
+    Socket socket1;
     // 登录检测
+
+    /**
+     * 用户登录
+     * @param userId
+     * @param pwd
+     * @return 是否登录成功
+     */
     public boolean checkUser(String userId,String pwd){
         boolean result = false;
         user.setUserId(userId);
@@ -48,6 +57,15 @@ public class UserClientService {
                 // 启动客户端线程
                 clientConnectServerThread.start();
                 result = true;
+
+                // 建立第二个socket链接用于开启私聊通道
+                socket1 = new Socket(InetAddress.getLocalHost(), 9999);
+                User user1 = new User();
+                user1.setUserId(userId+":");
+                new ObjectOutputStream(socket1.getOutputStream()).writeObject(user1);
+                ClientConnectServerThread clientConnectServerThread1 = new ClientConnectServerThread(socket1);
+                clientConnectServerThread1.start();
+                ManageClientConnectServerThread.addClientConnectServerThread(user1.getUserId(),clientConnectServerThread1);
             }else {
                 // 如果登录失败，关闭socket
                 socket.close();
@@ -73,6 +91,10 @@ public class UserClientService {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * 退出登录
+     */
     public void exitClient()  {
         Message message = new Message();
         message.setMessageType(MessageType.MESSAGE_CLIENT_EXIT);
